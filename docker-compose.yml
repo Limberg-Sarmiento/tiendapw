@@ -1,0 +1,25 @@
+networks:
+  crud-network:
+    driver: bridge
+services:
+  crud:
+    build: ./
+    container_name: crud
+    ports:
+      - '8090:80'
+    volumes:
+      - './crud-scripts/:/usr/local/apache2/cgi-bin/'
+    networks:
+      - crud-network
+
+  dbpets:
+    image: mysql:9.1
+    container_name: dbpets
+    restart: always
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: datos;
+    networks:
+      - crud-network
