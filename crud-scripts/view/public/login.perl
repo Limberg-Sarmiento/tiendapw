@@ -65,7 +65,7 @@ print <<'EOF';
                 <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Ingrese su contraseña" required>
             </div>
             <button class="btn btn-primary btn_login">Iniciar Sesión</button>
-        <p>¿No tienes cuenta? <a href="registro.perl">Regístrate aquí</a></p>
+        <p>¿No tienes cuenta? <a href="/cgi-bin/view/public/registro.perl">Regístrate aquí</a></p>
     </div>
 	<script>
 		$(document).ready(function() {
@@ -97,4 +97,3 @@ print <<'EOF';
 
 </html>
 EOF
-
