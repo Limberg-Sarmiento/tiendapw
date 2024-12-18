@@ -9,22 +9,15 @@ use JSON;
 my $cgi = CGI->new();
 
 # Capturar los parámetros enviados desde el formulario
-my $nombre     = $cgi->param('nombre');
-my $email      = $cgi->param('email');
-my $contrasena = $cgi->param('contrasena');
+my $email     = $cgi->param('email');
+my $producto_id      = $cgi->param('producto_id');
 
 # Imprimir el encabezado HTTP para devolver JSON
 print $cgi->header('application/json;charset=UTF-8');
 
 # Validar los datos de entrada
-if (!$nombre || !$email || !$contrasena) {
+if (!$email || !$producto_id ) {
     print to_json({ error => "Todos los campos son obligatorios" });
-    exit;
-}
-
-# Validar que el email tenga un formato correcto
-if ($email !~ /^[a-zA-Z0-9_.+-]+\@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/) {
-    print to_json({ error => "El correo electrónico no es válido" });
     exit;
 }
 
@@ -40,7 +33,7 @@ if (!$dbh) {
 }
 
 # Consulta SQL para insertar los datos
-my $sql = 'INSERT INTO usuarios (nombre, email, contrasena) VALUES (?, ?, ?)';
+my $sql = 'INSERT INTO compras (email, producto_id) VALUES (?, ?)';
 my $sth = $dbh->prepare($sql);
 if (!$sth) {
     print to_json({ error => "Error al preparar la consulta: " . $dbh->errstr });
@@ -50,7 +43,7 @@ if (!$sth) {
 
 # Ejecutar la consulta
 eval {
-    $sth->execute($nombre, $email, $contrasena);
+    $sth->execute($email, $producto_id);
 };
 
 if ($@) {
@@ -61,8 +54,6 @@ if ($@) {
 print to_json({
     exito   => 1,  # Cambiar el campo a 'exito'
     mensaje => "Datos registrados exitosamente",
-    nombre  => $nombre,
-    email   => $email
 });
 
 }

@@ -53,7 +53,7 @@ print <<EOF;
 
                 // Enviar los datos al archivo create.perl usando AJAX
                 \$.ajax({
-                    url: "create.perl",
+                    url: "/cgi-bin/controller/login/create.perl",
                     type: "POST",
                     data: datos,
                     dataType: "json",

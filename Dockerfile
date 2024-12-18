@@ -5,6 +5,7 @@ RUN apt-get update && \
 
     # Instalar módulos Perl con cpan
 RUN cpan CGI && \
+    cpan CGI::Session && \
     cpan JSON::XS && \
     cpan JSON && \
     cpan DBI && \
