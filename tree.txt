@@ -1,0 +1,73 @@
+.
+├── conf
+│   └── httpd-cgi.conf
+├── crud-scripts
+│   ├── bienvenido.html
+│   ├── controller
+│   │   ├── compras
+│   │   │   ├── create.perl
+│   │   │   ├── delete.perl
+│   │   │   ├── findbyid.perl
+│   │   │   ├── read.perl
+│   │   │   └── update.perl
+│   │   ├── login
+│   │   │   ├── auth.perl
+│   │   │   └── create.perl
+│   │   ├── productos
+│   │   │   ├── create.perl
+│   │   │   ├── delete.perl
+│   │   │   ├── findbyid.perl
+│   │   │   ├── read.perl
+│   │   │   └── update.perl
+│   │   └── tmp
+│   │       ├── cgisess_4aee302d1862c75f6b44547a2903c457
+│   │       ├── cgisess_773d502a63c15b8938aca28fc4947ec9
+│   │       ├── cgisess_92a3cfee706a3afa2b6103f9ca0b5982
+│   │       ├── cgisess_9ae462b648668b5300793034f4a88379
+│   │       ├── cgisess_b57bf58ed5a04e93619d524d74326fec
+│   │       ├── cgisess_b8c774e3e9fea73a1dfe98c1d5d334a8
+│   │       ├── cgisess_c387861c5344d36eba617813d61965a4
+│   │       ├── cgisess_dc325860e337b25120cca9b5c0dc7bae
+│   │       ├── cgisess_ec71ea7c3cbfbf1e0df2ba10f9f0d674
+│   │       └── cgisess_fbafed99a92614e20edfdcf2dcdb19e7
+│   ├── create copy.perl
+│   ├── create.perl
+│   ├── delete.perl
+│   ├── echo copy.perl
+│   ├── findbyid.perl
+│   ├── read copy.perl
+│   ├── read.perl
+│   ├── session
+│   │   ├── 01_sesion_start.pl
+│   │   ├── 02_sesion_data_create.pl
+│   │   ├── 03_sesion_variable_read.pl
+│   │   ├── 04_sesion_get.pl
+│   │   ├── 05_sesion_delete.pl
+│   │   ├── 06_sesion_destroy.pl
+│   │   ├── index.pl
+│   │   └── README.md
+│   ├── storage
+│   │   ├── telefono1.jpg
+│   │   ├── telefono2.jpg
+│   │   ├── telefono3.jpg
+│   │   └── telefono4.jpg
+│   ├── tmp
+│   ├── update.perl
+│   └── view
+│       ├── private
+│       │   ├── compras.perl
+│       │   ├── productos.perl
+│       │   ├── quienes-somos.perl
+│       │   └── tienda.perl
+│       ├── public
+│       │   ├── login.perl
+│       │   └── registro.perl
+│       └── test.perl
+├── docker-compose.yml
+├── Dockerfile
+├── mascotas.sql
+├── README.md
+├── SARMIENTO_TICO_INFORME_LAB_05.pdf
+└── tree.txt
+
+13 directories, 58 files
