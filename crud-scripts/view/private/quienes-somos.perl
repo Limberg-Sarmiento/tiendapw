@@ -41,7 +41,10 @@ if ($cgi->param('logout')) {
 if ($session->param('_EMAIL')) {
     # Si el usuario está logueado, mostrar la tienda con el correo en el header
     my $email = $session->param('_EMAIL');
-    print $cgi->header('text/html');
+    print $cgi->header(
+	    -type => 'text/html; charset=UTF-8', 
+	    -charset => 'UTF-8'
+    );
     print <<HTML;
 <!DOCTYPE html>
 <html lang="es">
@@ -76,75 +79,10 @@ if ($session->param('_EMAIL')) {
         </div>
     </nav>
     <div class="container">
-        <h1>Bienvenido a la tienda</h1>
-
-        <div class="row" id="table-container">
-            <!-- Aquí se insertará la tabla dinámicamente -->
-        </div>
+	<h2>¿Quienes somos?</h2>
+        <p>Bienvenidos a <strong>Tienda Virtual</strong>, una empresa dedicada a ofrecer los mejores productos para ti. Nuestra misión es proporcionarte una experiencia de compra única con productos de calidad y un servicio al cliente excepcional. Contamos con una amplia variedad de artículos, desde tecnología hasta artículos para el hogar, todos disponibles para su compra online.</p>
+        <p>En Tienda Virtual, nos apasiona brindarte lo mejor. Nos esforzamos por ofrecerte productos innovadores, precios competitivos y un proceso de compra fácil y seguro. ¡Explora nuestras opciones y encuentra lo que más te gusta!</p>
     </div>
-    <script>
-		\$(document).ready(function() {
-			function cargarTabla() {
-				\$.ajax({
-					url: "/cgi-bin/controller/productos/read.perl", // Archivo Perl que devuelve los registros en formato JSON
-					type: "GET",
-					dataType: "json"
-				})
-				.done(function(dataset) {
-					// Generar tabla dinámica
-					let table = "";
-					console.log(dataset.data);
-					dataset.data.forEach(function(record) {
-            					table += "<div class='col-sm-4'><div class='thumbnail'>"
-                    				table += "<img src='"+record.url+ "' alt='Producto 3'  height='250'>"
-                        			table += "<h3>"+record.nombre+"</h3>"
-                        			table += "<p>precio "+record.precio+"</p>"
-                        			table += "<p>tipo: "+record.tipo+"</p>"
-                        			table += "<p><a href='#' class='btn btn-primary comprarBtn' role='button' data-id='" + record.id + "'>Comprar</a></p>"
-            					table += "</div></div>"
-					});
-
-					// Insertar la tabla en el contenedor
-					\$("#table-container").html(table);
-					\$(".comprarBtn").on('click', function() {
-						let id = \$(this).data('id');
-
-
-					var dt = {
-						email: '$email',
-						producto_id: id,
-					};
-					var request = \$.ajax({
-						url: "/cgi-bin/controller/compras/create.perl",
-						type: "POST",
-						data: dt,
-						dataType: "json"
-					});
-					request.done(function(dataset) {
-						\$('#respAjax').addClass("well");
-						\$('#respAjax').html("Datos enviados correctamente: " + JSON.stringify(dataset));
-						cargarTabla();
-					});
-					request.fail(function(jqXHR, textStatus) {
-						alert("Error en la solicitud: " + textStatus);
-					});
-
-
-
-					});
-					\$(".deleteBtn").on('click', function() {
-						let id = \$(this).data('id');
-						eliminarMascota(id);
-					});
-				})
-				.fail(function(jqXHR, textStatus) {
-					\$("#table-container").html("<div class='alert alert-danger'>Error al cargar los datos: " + textStatus + "</div>");
-				});
-			}
-
-			cargarTabla();
-			})
-    </script>
 </body>
 </html>
 HTML

@@ -76,17 +76,54 @@ if ($session->param('_EMAIL')) {
         </div>
     </nav>
     <div class="container">
-        <h1>Bienvenido a la tienda</h1>
+    <h1 class="text-center">Tu Carrito de Compras</h1>
 
-        <div class="row" id="table-container">
+    <div class="row">
+        <div class="col-md-8">
+
+        <div id="table-container">
             <!-- Aquí se insertará la tabla dinámicamente -->
         </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="border p-3">
+                <h4 class="text-center">Resumen del Carrito</h4>
+                <p><strong>Total:</strong> <p id="total-container"></p></p>
+                <button class="btn btn-success w-100" id="proceed-payment">Proceder al Pago</button>
+            </div>
+        </div>
+		
+	<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="paymentModalLabel">Pago Exitoso</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Pago realizado con éxito.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
     </div>
+</div>
+    </div>
+    </div>
+
     <script>
+    document.getElementById("proceed-payment").addEventListener("click", function() {
+        // Muestra el mensaje de éxito y oculta el botón
+	        \$('#paymentModal').modal('show');
+    });
 		\$(document).ready(function() {
 			function cargarTabla() {
 				\$.ajax({
-					url: "/cgi-bin/controller/productos/read.perl", // Archivo Perl que devuelve los registros en formato JSON
+					url: "/cgi-bin/controller/compras/read.perl", // Archivo Perl que devuelve los registros en formato JSON
 					type: "GET",
 					dataType: "json"
 				})
@@ -95,17 +132,17 @@ if ($session->param('_EMAIL')) {
 					let table = "";
 					console.log(dataset.data);
 					dataset.data.forEach(function(record) {
-            					table += "<div class='col-sm-4'><div class='thumbnail'>"
-                    				table += "<img src='"+record.url+ "' alt='Producto 3'  height='250'>"
-                        			table += "<h3>"+record.nombre+"</h3>"
-                        			table += "<p>precio "+record.precio+"</p>"
-                        			table += "<p>tipo: "+record.tipo+"</p>"
-                        			table += "<p><a href='#' class='btn btn-primary comprarBtn' role='button' data-id='" + record.id + "'>Comprar</a></p>"
-            					table += "</div></div>"
+					table += "<div class='cart-item'><div class='row'>"
+					table += "<div class='col-2'><img src='"+record.url+"' alt='Producto 1' width='100', height='100'></div>"
+					table += "<div class='col-6'><h5>"+record.nombre+"</h5></div>"
+					table += "<div class='col-2'><p>s/"+record.precio+"</p></div>"
+					table += "</div></div>"
 					});
+					let preciototal = ""+dataset.suma;
 
 					// Insertar la tabla en el contenedor
 					\$("#table-container").html(table);
+					\$("#total-container").html(preciototal);
 					\$(".comprarBtn").on('click', function() {
 						let id = \$(this).data('id');
 

@@ -5,8 +5,20 @@ use CGI;
 use DBI;
 use JSON;
 
+use CGI::Session;
+
 # Crear objeto CGI
 my $cgi = CGI->new();
+
+# Crear una nueva sesión o recuperar la existente
+my $session = CGI::Session->load("driver:File", $cgi->cookie('SESSION_ID') || undef, {Directory => '/usr/local/apache2/cgi-bin/controller/tmp'});
+
+# Verificar si la sesión es válida y contiene información de inicio de sesión
+if ($session && $session->param('_EMAIL')) {
+    # Si el usuario ya está logueado, redirigir a tienda.pl
+    print $cgi->redirect(-uri => '/cgi-bin/view/private/tienda.perl');
+    exit;
+}
 
 # Obtener parámetros si se envían (para la validación del login)
 my $email      = $cgi->param('email');
@@ -14,31 +26,6 @@ my $contrasena = $cgi->param('contrasena');
 
 # Imprimir cabecera HTTP
 print $cgi->header('text/html; charset=UTF-8');
-
-# Verificar si los parámetros se enviaron (proceso de validación)
-if ($email && $contrasena) {
-    # Conectar a la base de datos
-    my $dsn = "DBI:MariaDB:database=datos;host=localhost;port=3306";
-    my $user = "root";
-    my $password = "admin";
-
-    my $dbh = DBI->connect($dsn, $user, $password, { RaiseError => 1, AutoCommit => 1 });
-
-    # Consulta SQL para validar el usuario
-    my $sql = 'SELECT * FROM usuarios WHERE email = ? AND contrasena = ?';
-    my $sth = $dbh->prepare($sql);
-    $sth->execute($email, $contrasena);
-
-    if (my $row = $sth->fetchrow_hashref()) {
-        print "<script>alert('Inicio de sesión exitoso. ¡Bienvenido $row->{nombre}!'); window.location.href = 'bienvenido.html';</script>";
-    } else {
-        print "<script>alert('Correo o contraseña incorrectos. Inténtalo de nuevo.');</script>";
-    }
-
-    # Finalizar
-    $sth->finish();
-    $dbh->disconnect();
-}
 
 # Mostrar el formulario de inicio de sesión
 print <<'EOF';
@@ -85,7 +72,7 @@ print <<'EOF';
 					});
 					request.done(function(dataset) {
 						console.log(dataset);
-                        window.location.href = "/cgi-bin/view/test.perl  ";
+                        window.location.href = "/cgi-bin/view/private/tienda.perl";
 					});
 					request.fail(function(jqXHR, textStatus) {
 						alert("Error en la solicitud: " + textStatus);
